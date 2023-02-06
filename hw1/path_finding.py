@@ -53,7 +53,7 @@ def cell_to_GVD_a_star(
 
 	# define a priority queue
 	frontier = PriorityQueue()
-	frontier.put(cell, 0)
+	frontier.put((0, cell))
 	frontier_size = []
 
 	# construct a reached table using python dictionary. The key is the (x, y)
@@ -63,7 +63,7 @@ def cell_to_GVD_a_star(
 
 	while not frontier.empty():
 		frontier_size.append(frontier.qsize())
-		current :Tuple[int, int] = frontier.get()
+		_, current = frontier.get()
 		if current in GVD:
 			cur_pointer, path = current, [current]
 			while reached[cur_pointer]['parent'] != cell:
@@ -75,7 +75,7 @@ def cell_to_GVD_a_star(
 			if (i, j) not in reached or g < reached[(i, j)]['cost']:
 				reached[(i, j)] = {"cost":g, "parent": current}
 				new_priority = g + distance([(i, j)], [goal])
-				frontier.put((i, j), new_priority)
+				frontier.put((new_priority,(i, j)))
 
 	# TODO: implement this to use the reached table (back pointers) to find
 	# the path once you have reached a cell on the GVD.
